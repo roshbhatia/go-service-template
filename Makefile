@@ -1,4 +1,4 @@
-.PHONY: check-go-version clean run docker-build docker-run 
+.PHONY: check-go-version clean test run docker-build docker-run 
 go-version := 1.15.6
 shell-go-version := $(shell go version | cut -d" " -f3 | sed -r 's/^.{2}//')
 go-os := $(shell  uname | awk '{print tolower($$0)}')
@@ -14,6 +14,9 @@ endif
 
 clean:
 	rm -rf $(CURDIR)/bin
+
+test: check-go-version
+	go test ./...
 
 run: check-go-version
 	go run cmd/main/main.go
