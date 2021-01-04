@@ -31,6 +31,6 @@ func TestHealthCheckHandler(t *testing.T) {
 	err = json.Unmarshal(responseRecorder.Body.Bytes(), &healthCheckResponse)
 	assert.NoError(t, err)
 
-	assert.Equal(t, "healthy", healthCheckResponse.healthStatus)
-	assert.Equal(t, "OK", healthCheckResponse.healthStatus)
+	assert.Equal(t, "healthy", healthCheckResponse.HealthStatus)
+	assert.Equal(t, "OK", healthCheckResponse.HttpStatus)
 }
