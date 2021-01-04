@@ -16,9 +16,11 @@ func main() {
 	logger := logger.NewLogger()
 	logger.Info.Printf("starting echo-service on port %d\n", port)
 
-	health := &api.Health{
+	handlers := &api.Api{
 		Logger: *logger,
 	}
-	http.HandleFunc("/health", health.HealthCheckHandler)
+	http.HandleFunc("/health", handlers.HealthCheckHandler)
+	http.HandleFunc("/echo", handlers.EchoHandler)
+
 	logger.Fatal.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", 8080), nil))
 }

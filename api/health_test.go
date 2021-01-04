@@ -14,7 +14,7 @@ var healthCheckResponse healthCheck
 
 func TestHealthCheckHandler(t *testing.T) {
 	logger := logger.NewLogger()
-	health := &Health{
+	api := &Api{
 		Logger: *logger,
 	}
 
@@ -22,7 +22,7 @@ func TestHealthCheckHandler(t *testing.T) {
 	assert.NoError(t, err)
 
 	responseRecorder := httptest.NewRecorder()
-	healthCheckHandler := http.HandlerFunc(health.HealthCheckHandler)
+	healthCheckHandler := http.HandlerFunc(api.HealthCheckHandler)
 
 	healthCheckHandler.ServeHTTP(responseRecorder, req)
 
