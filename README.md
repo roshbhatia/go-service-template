@@ -82,9 +82,13 @@ Runs the docker container built in the above command, and maps the service to po
 
 Test it with curl!
 ```
-$> make docker-build docker-run
+$> make docker-build docker-run # For HTTPS, from within Docker
 $> curl -k https://localhost:8080/health # use -k because we've issued the SSL cert ourselves!
 $> curl -d '{"EchoStr":"hello world"}' -H 'Content-Type: application/json' -k  https://localhost:8080/echo
+
+$> SERVICE_PORT=8080 make run # For HTTP, locally
+$> curl -k http://localhost:8080/health 
+$> curl -d '{"EchoStr":"hello world"}' -H 'Content-Type: application/json' http://localhost:8080/echo
 ```
 
 
