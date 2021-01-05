@@ -62,7 +62,7 @@ Runs `go test` on all packages in echo-service.
 
 `make run`
 
-Runs the echo-service locally.
+Runs the echo-service locally. Ensure SERVICE_PORT is exported into your local environment.
 
 `make build`
 
