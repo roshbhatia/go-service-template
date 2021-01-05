@@ -86,3 +86,10 @@ $> make docker-build docker-run
 $> curl -k https://localhost:8080/health # use -k because we've issued the SSL cert ourselves!
 $> curl -d '{"EchoStr":"hello world"}' -H 'Content-Type: application/json' -k  https://localhost:8080/echo
 ```
+
+
+## TODO
+
+- Refactoring: Why do we have three seperate loggers? Can also provide Errf, Infof, Fatalf, etc. functions for ease of use
+- Fowarding from HTTP to HTTPS should be implemented
+- Basic auth
