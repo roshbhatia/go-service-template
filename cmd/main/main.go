@@ -29,7 +29,7 @@ func main() {
 	if ssl_cert_path == "" || ssl_key_path == "" {
 		logger.Info("SSL_CERT_PATH and SSL_KEY_PATH are not both set, running in HTTP only")
 	} else {
-		logger.Info("SSL_CERT_PATH and SSL_KEY_PATH provided, running wtih HTTPS")
+		logger.Info("SSL_CERT_PATH and SSL_KEY_PATH provided, running with HTTPS")
 	}
 
 	// Not best practice to pass around this in structs w/ member functions, dependency injection would be better here
@@ -38,8 +38,6 @@ func main() {
 		Logger: *logger,
 		Ctx:    ctx,
 	}
-	http.HandleFunc("/health", handlers.HealthCheckHandler)
-	http.HandleFunc("/echo", handlers.EchoHandler)
 
 	// Check for SIGTERM, then cleanly shutdown
 	osSignal := make(chan os.Signal)
@@ -58,11 +56,12 @@ func main() {
 		os.Exit(1)
 	}()
 
-	logger.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", port), nil).Error())
+	http.HandleFunc("/health", handlers.HealthCheckHandler)
+	http.HandleFunc("/echo", handlers.EchoHandler)
 
-	// if ssl_cert_path == "" || ssl_key_path == "" {
-	// 	logger.Fatal.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", port), nil))
-	// } else {
-	// 	logger.Fatal.Fatal(http.ListenAndServeTLS(fmt.Sprintf(":%d", port), ssl_cert_path, ssl_key_path, nil))
-	// }
+	if ssl_cert_path == "" || ssl_key_path == "" {
+		logger.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", port), nil).Error())
+	} else {
+		logger.Fatal(http.ListenAndServeTLS(fmt.Sprintf(":%d", port), ssl_cert_path, ssl_key_path, nil).Error())
+	}
 }
