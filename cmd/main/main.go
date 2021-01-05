@@ -22,7 +22,7 @@ func main() {
 		logger.Fatal("SERVICE_PORT is unset or invalid, exiting")
 	}
 
-	logger.Info(fmt.Sprintf("starting echo-service on port %d\n", port))
+	logger.Info(fmt.Sprintf("starting echo-service on port %d", port))
 
 	ssl_cert_path := os.Getenv("SSL_CERT_PATH")
 	ssl_key_path := os.Getenv("SSL_KEY_PATH")
