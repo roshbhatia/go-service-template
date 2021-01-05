@@ -1,7 +1,12 @@
 package api
 
-import "github.com/roshbhatia/echo-service/logger"
+import (
+	"context"
+
+	"github.com/roshbhatia/echo-service/logger"
+)
 
 type Api struct {
 	Logger logger.Logger
+	Ctx    context.Context
 }

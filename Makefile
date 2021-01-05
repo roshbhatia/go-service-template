@@ -1,4 +1,4 @@
-.PHONY: check-go-version clean test run docker-build docker-run 
+.PHONY: check-go-version clean test run docker-build docker-run docker-build-local docker-run-local
 go-version := 1.15.6
 shell-go-version := $(shell go version | cut -d" " -f3 | sed -r 's/^.{2}//')
 go-os := $(shell  uname | awk '{print tolower($$0)}')
@@ -28,7 +28,7 @@ build: check-go-version
 docker-build: check-go-version 
 # Test for binary and recompile if OS is not linux
 	if [ '$(go-os)' != 'linux' ] || [ $(binary-exists) = 1 ]; then make build go-os=linux; fi
-	docker build -f ./deploy/docker/Dockerfile -t echo-service:$(semver)  .
+	docker build -f ./deploy/docker/Dockerfile -t echo-service:$(semver) --build-arg SERVICE_PORT=$(service-port)  .
 
 docker-run:
-	docker run -it echo-service:$(semver) -p $(local-port):$(service-port)
+	docker run -p $(local-port):$(service-port) -it echo-service:$(semver) 

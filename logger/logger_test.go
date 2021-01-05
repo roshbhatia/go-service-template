@@ -1,6 +1,7 @@
 package logger
 
 import (
+	"bufio"
 	"bytes"
 	"testing"
 
@@ -8,25 +9,25 @@ import (
 )
 
 var (
-	infoOutput, errOutput, fatalOutput bytes.Buffer
-	testStr                            string = "test"
+	output  bytes.Buffer
+	testStr string = "test"
 )
 
 func TestNewLogger(t *testing.T) {
-	logger := NewLogger()
+	ioWriter := bufio.NewWriter(&output)
+	logger := NewLogger(ioWriter)
 
-	logger.Info.SetOutput(&infoOutput)
-	logger.Err.SetOutput(&errOutput)
-	logger.Fatal.SetOutput(&fatalOutput)
+	logger.Info(testStr)
+	assert.Contains(t, output.String(), testStr)
+	assert.Contains(t, output.String(), "info")
+	output.Reset()
 
-	logger.Info.Println(testStr)
-	logger.Err.Println(testStr)
-	logger.Fatal.Println(testStr)
+	logger.Err(testStr)
+	assert.Contains(t, output.String(), testStr)
+	assert.Contains(t, output.String(), "err")
+	output.Reset()
 
-	assert.Contains(t, infoOutput.String(), testStr)
-	assert.Contains(t, infoOutput.String(), "info")
-	assert.Contains(t, errOutput.String(), testStr)
-	assert.Contains(t, errOutput.String(), "err")
-	assert.Contains(t, fatalOutput.String(), testStr)
-	assert.Contains(t, fatalOutput.String(), "fatal")
+	logger.Fatal(testStr)
+	assert.Contains(t, output.String(), testStr)
+	assert.Contains(t, output.String(), "fatal")
 }
