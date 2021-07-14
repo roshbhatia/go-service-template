@@ -1,4 +1,7 @@
-# echo-service
+# go-service-template
+
+This is a template for go based microservices -- referred to as `echo-service` throughout the documentation. As the name suggests, the service echoes text sent via a REST endpoint.
+
 ## REST API Contract
 
 echo-service provides the following endpoints
