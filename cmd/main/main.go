@@ -53,7 +53,7 @@ func main() {
 		}
 		logger.Info(fmt.Sprintf("processs recieved %s, shutting down\n", signalString))
 		cancel()
-		os.Exit(1)
+		os.Exit(0)
 	}()
 
 	http.HandleFunc("/health", handlers.HealthCheckHandler)
